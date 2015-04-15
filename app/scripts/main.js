@@ -279,10 +279,9 @@ function init() {
   // Heart
 
   var x = 0, y = 0;
+  var radius = 40;
 
   circleShape = new THREE.Shape();
-
-  var radius = 40;
 
   for (var i = 0; i < 16; i++) {
     var pct = (i + 1) / 16;
@@ -323,7 +322,7 @@ function init() {
       if ( hue > 0.1 ) hue -= 0.1;
 
       lightness += 0.0003 * delta;
-      if ( lightness > 0.1 ) lightness -= 0.1;
+      if ( lightness > 0.05 ) lightness -= 0.05;
 
       // TODO Create a PointOnShape Action/Zone in the particle engine
 
@@ -334,15 +333,14 @@ function init() {
       emitterpos.x = pointOnShape.x * 5 - 100;
       emitterpos.y = -pointOnShape.y * 5 + 400;
 
-      // pointLight.position.copy( emitterpos );
       pointLight.position.x = emitterpos.x;
       pointLight.position.y = emitterpos.y;
       pointLight.position.z = 100;
 
       particles.vertices[ target ] = p.position;
 
-      values_color[ target ].setHSL( hue, 0.5, lightness );
-      pointLight.color.setHSL( hue, 0.5, lightness );
+      values_color[ target ].setHSL( hue, 0.6, lightness );
+      pointLight.color.setHSL( hue, 0.6, lightness );
 
     };
 
@@ -372,21 +370,19 @@ function init() {
   };
 
 
-  sparksEmitter = new SPARKS.Emitter( new SPARKS.SteadyCounter( 500 ) );
+  sparksEmitter = new SPARKS.Emitter( new SPARKS.SteadyCounter( 800 ) );
 
   emitterpos = new THREE.Vector3( 0, 0, 0 );
 
   sparksEmitter.addInitializer( new SPARKS.Position( new SPARKS.PointZone( emitterpos ) ) );
   sparksEmitter.addInitializer( new SPARKS.Lifetime( 1, 15 ));
   sparksEmitter.addInitializer( new SPARKS.Target( null, setTargetParticle ) );
-
-
   sparksEmitter.addInitializer( new SPARKS.Velocity( new SPARKS.PointZone( new THREE.Vector3( 0, -5, 1 ) ) ) );
 
   sparksEmitter.addAction( new SPARKS.Age() );
   sparksEmitter.addAction( new SPARKS.Accelerate( 0, 0, -50 ) );
   sparksEmitter.addAction( new SPARKS.Move() );
-  sparksEmitter.addAction( new SPARKS.RandomDrift( 90, 100, 2000 ) );
+  sparksEmitter.addAction( new SPARKS.RandomDrift( 20, 100, 2000 ) );
 
 
   sparksEmitter.addCallback( "created", onParticleCreated );
