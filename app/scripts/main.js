@@ -310,12 +310,8 @@ function init() {
 
     if ( target ) {
 
-      // console.log(target,particles.vertices[target]);
-      // values_size[target]
-      // values_color[target]
-
       hue += 0.0003 * delta;
-      if ( hue > 1 ) hue -= 1;
+      if ( hue > 0.1 ) hue -= 0.1;
 
       // TODO Create a PointOnShape Action/Zone in the particle engine
 
@@ -334,11 +330,8 @@ function init() {
 
       particles.vertices[ target ] = p.position;
 
-      values_color[ target ].setHSL( hue, 0.1, 0.1 );
-
-      pointLight.color.setHSL( hue, 0.1, 0.1 );
-      // pointLight.color.setHSL( hue, 0.8, 0.5 );
-
+      values_color[ target ].setHSL( hue, 0.5, 0.1 );
+      pointLight.color.setHSL( hue, 0.5, 0.1 );
 
     };
 
