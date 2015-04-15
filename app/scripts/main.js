@@ -221,18 +221,18 @@ function init() {
 
   // EMITTER STUFF
 
-  // Heart
+  // circleShape
 
   var x = 0, y = 0;
-  var radius = 40;
+  var circleRadius = 40;
 
   circleShape = new THREE.Shape();
 
   for (var i = 0; i < 16; i++) {
     var pct = (i + 1) / 16;
     var theta = pct * Math.PI * 2.0;
-    var x = radius * Math.cos(theta) + 20;
-    var y = radius * Math.sin(theta) + 50;
+    var x = circleRadius * Math.cos(theta) + 20;
+    var y = circleRadius * Math.sin(theta) + 50;
     console.log(x)
     console.log(y)
     if (i == 0) {
@@ -356,16 +356,12 @@ function init() {
   var radius = 15;
   var blurAmountX = radius / window.innerWidth;
   var blurAmountY = radius / window.innerHeight;
-  // var blurAmountX = 0;
-  // var blurAmountY = 0;
 
   hblur = new THREE.ShaderPass( THREE.HorizontalBlurShader );
   vblur = new THREE.ShaderPass( THREE.VerticalBlurShader);
 
   hblur.uniforms[ 'h' ].value =  1 / window.innerWidth;
   vblur.uniforms[ 'v' ].value =  1 / window.innerHeight;
-  // hblur.uniforms[ 'h' ].value =  0;
-  // vblur.uniforms[ 'v' ].value =  0;
 
   effectBlurX.uniforms[ 'delta' ].value = new THREE.Vector2( blurAmountX, 0 );
   effectBlurY.uniforms[ 'delta' ].value = new THREE.Vector2( 0, blurAmountY );
@@ -503,6 +499,7 @@ function render() {
   group.rotation.y += ( targetRotation - group.rotation.y ) * 0.05;
 
   renderer.clear();
+  // renderer.render( scene, camera );
 
   composer.render( 0.1 );
 
