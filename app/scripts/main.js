@@ -19,7 +19,7 @@ var windowHalfY = window.innerHeight / 2;
 
 var delta = 1, clock = new THREE.Clock();
 
-var heartShape, particleCloud, sparksEmitter, emitterPos;
+var circleShape, particleCloud, sparksEmitter, emitterPos;
 var _rotation = 0;
 var timeOnShapePath = 0;
 
@@ -280,17 +280,26 @@ function init() {
 
   var x = 0, y = 0;
 
-  heartShape = new THREE.Shape();
+  circleShape = new THREE.Shape();
 
-  heartShape.moveTo( x + 25, y + 25 );
-  heartShape.bezierCurveTo( x + 25, y + 25, x + 20, y, x, y );
-  heartShape.bezierCurveTo( x - 30, y, x - 30, y + 35,x - 30,y + 35 );
-  heartShape.bezierCurveTo( x - 30, y + 55, x - 10, y + 77, x + 25, y + 95 );
-  heartShape.bezierCurveTo( x + 60, y + 77, x + 80, y + 55, x + 80, y + 35 );
-  heartShape.bezierCurveTo( x + 80, y + 35, x + 80, y, x + 50, y );
-  heartShape.bezierCurveTo( x + 35, y, x + 25, y + 25, x + 25, y + 25 );
+  var radius = 40;
+
+  for (var i = 0; i < 16; i++) {
+    var pct = (i + 1) / 16;
+    var theta = pct * Math.PI * 2.0;
+    var x = radius * Math.cos(theta) + 20;
+    var y = radius * Math.sin(theta) + 50;
+    console.log(x)
+    console.log(y)
+    if (i == 0) {
+      circleShape.moveTo(x, y);
+    } else {
+      circleShape.lineTo(x, y);
+    }
+  }
 
   var hue = 0;
+  var lightness = 0;
 
   var setTargetParticle = function() {
 
@@ -313,13 +322,15 @@ function init() {
       hue += 0.0003 * delta;
       if ( hue > 0.1 ) hue -= 0.1;
 
+      lightness += 0.0003 * delta;
+      if ( lightness > 0.1 ) lightness -= 0.1;
+
       // TODO Create a PointOnShape Action/Zone in the particle engine
 
       timeOnShapePath += 0.00035 * delta;
       if ( timeOnShapePath > 1 ) timeOnShapePath -= 1;
 
-      var pointOnShape = heartShape.getPointAt( timeOnShapePath );
-
+      var pointOnShape = circleShape.getPointAt( timeOnShapePath );
       emitterpos.x = pointOnShape.x * 5 - 100;
       emitterpos.y = -pointOnShape.y * 5 + 400;
 
@@ -330,8 +341,8 @@ function init() {
 
       particles.vertices[ target ] = p.position;
 
-      values_color[ target ].setHSL( hue, 0.5, 0.1 );
-      pointLight.color.setHSL( hue, 0.5, 0.1 );
+      values_color[ target ].setHSL( hue, 0.5, lightness );
+      pointLight.color.setHSL( hue, 0.5, lightness );
 
     };
 
