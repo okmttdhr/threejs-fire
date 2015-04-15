@@ -54,63 +54,8 @@ function init() {
   pointLight.position.set( 0, 0, 0 );
   scene.add( pointLight );
 
-  // // TEXT
-  //
-  // var theText = "THREE.JS";
-  //
-  // // Get text from hash
-  //
-  // var hash = document.location.hash.substr( 1 );
-  //
-  // if ( hash.length !== 0 ) {
-  //
-  //   theText = hash;
-  //
-  // }
-  //
-  // var material = new THREE.MeshFaceMaterial( [
-  //   new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading, opacity: 0.95 } ),
-  //   new THREE.MeshLambertMaterial( { color: 0xffffff } )
-  // ] );
-  //
-  // var text3d = new THREE.TextGeometry( theText, {
-  //
-  //   size: 70,
-  //   height: 25,
-  //   curveSegments: 4,
-  //   font: "helvetiker",
-  //
-  //   bevelEnabled: true,
-  //   bevelThickness: 2,
-  //   bevelSize: 2,
-  //
-  //   material: 0,
-  //   extrudeMaterial: 1
-  //
-  // });
-  //
-  // text3d.computeVertexNormals();
-  // text3d.computeBoundingBox();
-  //
-  // var centerOffset = -0.5 * ( text3d.boundingBox.max.x - text3d.boundingBox.min.x );
-  //
   group = new THREE.Group();
   scene.add( group );
-  //
-  // text = new THREE.Mesh( text3d, material );
-  //
-  // // Potentially, we can extract the vertices or faces of the text to generate particles too.
-  // // Geo > Vertices > Position
-  //
-  // text.position.x = centerOffset;
-  // text.position.y = 130;
-  // text.position.z = -50;
-  //
-  // text.rotation.x = 0;
-  // text.rotation.y = Math.PI * 2;
-  //
-  // group.add( text );
-  //
 
   // Create particle objects for Three.js
 
@@ -330,6 +275,7 @@ function init() {
       if ( timeOnShapePath > 1 ) timeOnShapePath -= 1;
 
       var pointOnShape = circleShape.getPointAt( timeOnShapePath );
+      if (!emitterpos) emitterpos = new THREE.Vector3( 0, 0, 0 );
       emitterpos.x = pointOnShape.x * 5 - 100;
       emitterpos.y = -pointOnShape.y * 5 + 400;
 
@@ -410,12 +356,16 @@ function init() {
   var radius = 15;
   var blurAmountX = radius / window.innerWidth;
   var blurAmountY = radius / window.innerHeight;
+  // var blurAmountX = 0;
+  // var blurAmountY = 0;
 
   hblur = new THREE.ShaderPass( THREE.HorizontalBlurShader );
   vblur = new THREE.ShaderPass( THREE.VerticalBlurShader);
 
   hblur.uniforms[ 'h' ].value =  1 / window.innerWidth;
   vblur.uniforms[ 'v' ].value =  1 / window.innerHeight;
+  // hblur.uniforms[ 'h' ].value =  0;
+  // vblur.uniforms[ 'v' ].value =  0;
 
   effectBlurX.uniforms[ 'delta' ].value = new THREE.Vector2( blurAmountX, 0 );
   effectBlurY.uniforms[ 'delta' ].value = new THREE.Vector2( 0, blurAmountY );
@@ -429,11 +379,6 @@ function init() {
   composer.addPass( renderScene );
   composer.addPass( hblur );
   composer.addPass( vblur );
-  // composer.addPass( effectBlurX );
-  // composer.addPass( effectBlurY );
-  // composer.addPass( effectCopy );
-  // composer.addPass( effectFocus );
-  // composer.addPass( effectFilm );
 
   vblur.renderToScreen = true;
   effectBlurY.renderToScreen = true;
@@ -441,9 +386,9 @@ function init() {
   effectCopy.renderToScreen = true;
   effectFilm.renderToScreen = true;
 
-  // document.addEventListener( 'mousedown', onDocumentMouseDown, false ); // クリックで停止する処理を停止
   document.addEventListener( 'touchstart', onDocumentTouchStart, false );
   document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+  document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
   //
 
@@ -476,10 +421,6 @@ function onWindowResize() {
   composer.reset();
 
 }
-
-//
-
-document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
 
 function onDocumentMouseDown( event ) {
@@ -563,7 +504,6 @@ function render() {
 
   renderer.clear();
 
-  // renderer.render( scene, camera );
   composer.render( 0.1 );
 
 }
