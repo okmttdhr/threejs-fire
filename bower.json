@@ -1,0 +1,9 @@
+{
+  "name": "threejs-fire",
+  "private": true,
+  "dependencies": {
+    "bootstrap-sass-official": "~3.3.1",
+    "modernizr": "~2.8.1",
+    "three.js": "https://github.com/mrdoob/three.js.git"
+  }
+}
