@@ -4,9 +4,10 @@ var mainJs = function() {
     container =
       $('<div class="addGetWebGLMessage">' +
       'あなたのブラウザは最新ではありませんので、インターネット上にあるイケてる技術をみることはできません。<br>' +
-      'Your browser does not seem to support WebGL. Take a step to the future.' +
+      'Your browser does not seem to support WebGL. Take a step to the future.<br>' +
+      '<span><a href="http://okmttdhr.github.io/">okp</a></span>' +
       '<div>')
-    container.css({'padding-top': ($(window).height()/2)-40});
+    container.css({'padding-top': ($(window).height()/2)-(container.height()/2)});
     $('body').append(container);
     return;
   }
