@@ -97,7 +97,7 @@ var mainJs = function() {
         }
 
         console.log( "pool ran out!" )
-        return null;
+        return location.reload();
 
       },
 
@@ -245,8 +245,6 @@ var mainJs = function() {
       var theta = pct * Math.PI * 2.0;
       var x = circleRadius * Math.cos(theta) + 20;
       var y = circleRadius * Math.sin(theta) + 50;
-      console.log(x)
-      console.log(y)
       if (i == 0) {
         circleShape.moveTo(x, y);
       } else {
