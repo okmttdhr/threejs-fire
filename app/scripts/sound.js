@@ -11,6 +11,10 @@ var soundJs = function() {
     setTimeout(function(){
       snd.init();
     },2000);
+
+    setTimeout(function(){
+      location.reload();
+    },190000);
   }
 }
 
