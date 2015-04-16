@@ -6,6 +6,7 @@ var mainJs = function() {
       'あなたのブラウザは最新ではありませんので、インターネット上にあるイケてる技術をみることはできません。<br>' +
       'Your browser does not seem to support WebGL. Take a step to the future.' +
       '<div>')
+    container.css({'padding-top': ($(window).height()/2)-40});
     $('body').append(container);
     return;
   }
